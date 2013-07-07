@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Author.cs" />
+    <Compile Include="Book.cs" />
     <Compile Include="Clipping.cs" />
+    <Compile Include="ClippingOrganizer.cs" />
     <Compile Include="ClippingTypeEnum.cs" />
     <Compile Include="MyClippingsParser.cs" />
     <Compile Include="Program.cs" />
