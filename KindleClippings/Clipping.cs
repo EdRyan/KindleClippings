@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KindleClippings
 {
-    class Clipping
+    public class Clipping
     {
         public string BookName { get; set; }
         public string Author { get; set; }

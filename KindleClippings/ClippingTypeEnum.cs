@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KindleClippings
 {
-    enum ClippingTypeEnum
+    public enum ClippingTypeEnum
     {
         Highlight,
         Note

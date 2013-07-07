@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace KindleClippings
 {
-    class MyClippingsParser
+    public class MyClippingsParser
     {
         private const string ClippingSeparator = "==========";
         private const string Line1RegexPattern = @"^(.+?)(?: \(([^)]+?)\))?$";
