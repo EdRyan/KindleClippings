@@ -164,21 +164,19 @@ namespace KindleClippingsGUI
 
                         string clippingText = ClippingDatabase.GetClippingType(clipping.ClippingType);
 
-                        clippingText += " at ";
+                        clippingText += " (";
 
                         if (hasPage)
                         {
                             clippingText += "Page " + clipping.Page;
-                            if (hasLocation) clippingText += " (";
                         }
-
-                        if (hasLocation)
+                        else if (hasLocation)
                         {
                             clippingText += "Location " + clipping.Location;
-                            if (hasPage) clippingText += ")";
                         }
+                        else clippingText += "Unknown Location";
 
-                        if (!hasPage && !hasLocation) clippingText += "Unknown Location";
+                        clippingText += "): " + Preview(clipping.Text);
 
                         bookItem.Children.Add(new TreeItem { Text = clippingText, Key = id.ToString() });
                     }
@@ -190,6 +188,18 @@ namespace KindleClippingsGUI
             }
 
             _treeView.RefreshData();
+        }
+
+        private string Preview(string text)
+        {
+            if (String.IsNullOrEmpty(text)) return String.Empty;
+
+            const int maxPreviewLen = 80; // characters
+            var textLen = text.Length;
+
+            if (textLen > maxPreviewLen) return text.Substring(0, maxPreviewLen) + "...";
+
+            return text;
         }
         
         private void _treeView_MouseDoubleClick(object sender, MouseEventArgs e)
