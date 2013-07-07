@@ -134,7 +134,7 @@ namespace KindleClippingsGUI
 
             _treeView.DataStore = root;
 
-            foreach (var author in authors)
+            foreach (var author in authors.OrderBy(a => a.Name))
             {
                 var authorName = String.IsNullOrEmpty(author.Name) ? "Unknown Author" : author.Name;
 
@@ -144,7 +144,7 @@ namespace KindleClippingsGUI
                     Expanded = false
                 };
 
-                foreach (var book in author.Books.Values)
+                foreach (var book in author.Books.Values.OrderBy(b => b.Name))
                 {
                     var bookName = String.IsNullOrEmpty(book.Name) ? "Unknown Book" : book.Name;
 
