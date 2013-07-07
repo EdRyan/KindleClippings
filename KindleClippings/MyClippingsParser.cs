@@ -106,6 +106,7 @@ namespace KindleClippings
             }
 
             var hasPageNumber = line.Contains(" on Page ");
+            var hasLocation = line.Contains(" Location ");
 
             var dtIdx = 8;
             var locIdx = 4;
@@ -117,19 +118,19 @@ namespace KindleClippings
 
                 locIdx = 8;
 
-                var hasLocation = line.Contains(" Location ");
                 dtIdx = hasLocation ? 12 : 9;
             }
 
-            
-            var location = split[locIdx];
+            if (hasLocation)
+            {
+                var location = split[locIdx];
+                clipping.Location = location;
+            }
 
             var dateAddedString = String.Join(" ", split[dtIdx], split[dtIdx + 1], split[dtIdx + 2], split[dtIdx + 3], split[dtIdx + 4], split[dtIdx + 5]);
 
             var dateAdded = DateTime.Parse(dateAddedString);
 
-            
-            clipping.Location = location;
             clipping.DateAdded = dateAdded;
         }
 
