@@ -11,6 +11,7 @@ namespace KindleClippingsGUI
 {
     class ClippingForm : Form
     {
+        private const string DateFormat = "F";
         private Clipping _clipping { get; set; }
 
         internal ClippingForm(Clipping clipping)
@@ -31,7 +32,7 @@ namespace KindleClippingsGUI
             layout.AddRow(new Label { Text = "Clipping Type:" }, GetDataControl(ClippingDatabase.GetClippingType(_clipping.ClippingType)));
             layout.AddRow(new Label { Text = "Page:" }, GetDataControl(_clipping.Page));
             layout.AddRow(new Label { Text = "Location:" }, GetDataControl(_clipping.Location));
-            layout.AddRow(new Label { Text = "Date Added:" }, GetDataControl(_clipping.DateAdded.ToString("U")));
+            layout.AddRow(new Label { Text = "Date Added:" }, GetDataControl(_clipping.DateAdded.ToString(DateFormat)));
             layout.AddRow(new Label { Text = "Clipping Text:" }, GetDataControl(_clipping.Text, true));
         }
 
