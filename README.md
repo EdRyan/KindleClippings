@@ -23,14 +23,15 @@ __GUI__
 2. Build/Run the GUI
 3. Browse to the location of the "My Clippings.txt" file
 4. Click "Parse"
-5. See everything but your highlights and notes in the tree view (this step is in progress)
+5. Expand the appropriate author and book in the tree
+6. Double click on a highlight/note entry in the tree to view details
 
 
 TODO
 ----
 
-- GUI: Actually view the highlights/notes
-- GUI: Icons
+- GUI: Minor improvements to interface, including background colors (Clipping Form) and icons
+- Export functionality?
 - Calibre integration?
 - Document the library
 - Some kind of installer and publishing mechanism

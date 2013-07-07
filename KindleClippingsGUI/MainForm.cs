@@ -68,6 +68,7 @@ namespace KindleClippingsGUI
             layout.BeginVertical();
 
             _treeView = new TreeView();
+            _treeView.MouseDoubleClick += _treeView_MouseDoubleClick;
 
             layout.BeginHorizontal();
             layout.AddRow(_treeView);
@@ -156,20 +157,12 @@ namespace KindleClippingsGUI
 
                     foreach (var clipping in book.Clippings)
                     {
+                        var id = ClippingDatabase.AddClipping(clipping);
+
                         var hasPage = !String.IsNullOrEmpty(clipping.Page);
                         var hasLocation = !String.IsNullOrEmpty(clipping.Location);
 
-                        string clippingText = "";
-
-                        switch (clipping.ClippingType)
-                        {
-                            case ClippingTypeEnum.Highlight:
-                                clippingText = "Highlight";
-                                break;
-                            case ClippingTypeEnum.Note:
-                                clippingText = "Note";
-                                break;
-                        }
+                        string clippingText = ClippingDatabase.GetClippingType(clipping.ClippingType);
 
                         clippingText += " at ";
 
@@ -187,7 +180,7 @@ namespace KindleClippingsGUI
 
                         if (!hasPage && !hasLocation) clippingText += "Unknown Location";
 
-                        bookItem.Children.Add(new TreeItem { Text = clippingText });
+                        bookItem.Children.Add(new TreeItem { Text = clippingText, Key = id.ToString() });
                     }
 
                     authorItem.Children.Add(bookItem);
@@ -197,6 +190,39 @@ namespace KindleClippingsGUI
             }
 
             _treeView.RefreshData();
+        }
+        
+        private void _treeView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            OpenSelectedTreeItem();
+        }
+
+        private void OpenSelectedTreeItem()
+        {
+            var item = _treeView.SelectedItem;
+
+            if (string.IsNullOrEmpty(item.Key)) return;
+
+            try
+            {
+                OpenClippingWindow(int.Parse(item.Key));
+            }
+            catch
+            {
+                // if the Key doesn't parse to an int then it's not a clipping
+            }
+        }
+
+        private void OpenClippingWindow(int clippingId)
+        {
+            var clipping = ClippingDatabase.GetClipping(clippingId);
+            OpenClippingWindow(clipping);
+        }
+
+        private void OpenClippingWindow(Clipping clipping)
+        {
+            var form = new ClippingForm(clipping);
+            form.Show();
         }
     }
 }
