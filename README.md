@@ -35,7 +35,8 @@ TODO
 - Calibre integration?
 - Document the library
 - Some kind of installer and publishing mechanism
-- Test suite
+- Automated test suite
+- Ensure that this works with all Kindle devices (so far tested only on output from Kindle Touch running various firmware versions)
 - Pull data directly from Kindle (i.e. eliminate manual txt file copying)
 	- Identify connected Kindle, find "My Clippings.txt" and proceed as usual
 	- Reading MBS files???
