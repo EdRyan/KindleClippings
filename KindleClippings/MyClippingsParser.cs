@@ -103,6 +103,9 @@ namespace KindleClippings
                 case "Note":
                     clipping.ClippingType = ClippingTypeEnum.Note;
                     break;
+                case "Bookmark":
+                    clipping.ClippingType = ClippingTypeEnum.Bookmark;
+                    break;
             }
 
             var hasPageNumber = line.Contains(" on Page ");

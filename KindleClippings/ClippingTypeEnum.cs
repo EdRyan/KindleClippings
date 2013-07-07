@@ -9,6 +9,7 @@ namespace KindleClippings
     public enum ClippingTypeEnum
     {
         Highlight,
-        Note
+        Note,
+        Bookmark
     }
 }

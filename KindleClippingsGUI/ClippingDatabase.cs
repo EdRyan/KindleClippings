@@ -50,6 +50,8 @@ namespace KindleClippingsGUI
                     return "Highlight";
                 case ClippingTypeEnum.Note:
                     return "Note";
+                case ClippingTypeEnum.Bookmark:
+                    return "Bookmark";
                 default:
                     return "Unknown Clipping Type";
             }
