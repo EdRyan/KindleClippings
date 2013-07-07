@@ -10,12 +10,12 @@ using System.Text.RegularExpressions;
 
 namespace KindleClippings
 {
-    public class MyClippingsParser
+    public static class MyClippingsParser
     {
         private const string ClippingSeparator = "==========";
         private const string Line1RegexPattern = @"^(.+?)(?: \(([^)]+?)\))?$";
 
-        public IEnumerable<Clipping> Parse(string path)
+        public static IEnumerable<Clipping> Parse(string path)
         {
             using (var stream = new FileStream(path, FileMode.Open))
             {
@@ -23,7 +23,7 @@ namespace KindleClippings
             }
         }
 
-        public IEnumerable<Clipping> Parse(Stream stream)
+        public static IEnumerable<Clipping> Parse(Stream stream)
         {
             var clippings = new Collection<Clipping>();
 
@@ -74,7 +74,7 @@ namespace KindleClippings
             return clippings;
         }
 
-        private void ParseLine1(string line, Clipping clipping)
+        private static void ParseLine1(string line, Clipping clipping)
         {
             var match = Regex.Match(line, Line1RegexPattern);
             if (match.Success)
@@ -91,7 +91,7 @@ namespace KindleClippings
             }
         }
 
-        private void ParseLine2(string line, Clipping clipping)
+        private static void ParseLine2(string line, Clipping clipping)
         {
             var split = line.Split(' ');
 
@@ -133,7 +133,7 @@ namespace KindleClippings
             clipping.DateAdded = dateAdded;
         }
 
-        private void ParseLine4(string line, Clipping clipping)
+        private static void ParseLine4(string line, Clipping clipping)
         {
             clipping.Text = line.Trim();
         }

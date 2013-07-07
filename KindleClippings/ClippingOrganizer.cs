@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KindleClippings
 {
-    public class ClippingOrganizer
+    public static class ClippingOrganizer
     {
         public static IDictionary<string, Author> GroupClippingsByAuthorAndBook(IEnumerable<Clipping> clippings)
         {
