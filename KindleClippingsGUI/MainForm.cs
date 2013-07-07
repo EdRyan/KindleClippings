@@ -155,7 +155,7 @@ namespace KindleClippingsGUI
                         Expanded = false
                     };
 
-                    foreach (var clipping in book.Clippings)
+                    foreach (var clipping in book.Clippings.OrderBy(c => c.BeginningLocation).ThenBy(c => c.BeginningPage))
                     {
                         var id = ClippingDatabase.AddClipping(clipping);
 
