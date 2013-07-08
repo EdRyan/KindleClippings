@@ -21,6 +21,7 @@ namespace KindleClippingsGUI
         {
             this.ClientSize = new Size(800, 600);
             this.Title = "Kindle Clippings Parser";
+            this.Icon = Common.BookIcon;
 
             CreateInputSection();
             CreateOutputSection();
@@ -142,7 +143,8 @@ namespace KindleClippingsGUI
                 var authorItem = new TreeItem
                 {
                     Text = authorName,
-                    Expanded = false
+                    Expanded = false,
+                    Image = Common.PersonIcon
                 };
 
                 foreach (var book in author.Books.Values.OrderBy(b => b.Name))
@@ -152,7 +154,8 @@ namespace KindleClippingsGUI
                     var bookItem = new TreeItem
                     {
                         Text = bookName,
-                        Expanded = false
+                        Expanded = false,
+                        Image = Common.BookIcon
                     };
 
                     foreach (var clipping in book.Clippings.OrderBy(c => c.BeginningLocation).ThenBy(c => c.BeginningPage))
@@ -162,9 +165,7 @@ namespace KindleClippingsGUI
                         var hasPage = !String.IsNullOrEmpty(clipping.Page);
                         var hasLocation = !String.IsNullOrEmpty(clipping.Location);
 
-                        string clippingText = ClippingDatabase.GetClippingType(clipping.ClippingType);
-
-                        clippingText += " (";
+                        string clippingText = "";
 
                         if (hasPage)
                         {
@@ -176,9 +177,10 @@ namespace KindleClippingsGUI
                         }
                         else clippingText += "Unknown Location";
 
-                        clippingText += "): " + Preview(clipping.Text);
+                        var preview = Preview(clipping.Text);
+                        if (!String.IsNullOrEmpty(preview)) clippingText += ": " + preview;
 
-                        bookItem.Children.Add(new TreeItem { Text = clippingText, Key = id.ToString() });
+                        bookItem.Children.Add(new TreeItem { Text = clippingText, Key = id.ToString(), Image = Common.GetClippingTypeIcon(clipping.ClippingType) });
                     }
 
                     authorItem.Children.Add(bookItem);
@@ -194,7 +196,7 @@ namespace KindleClippingsGUI
         {
             if (String.IsNullOrEmpty(text)) return String.Empty;
 
-            const int maxPreviewLen = 80; // characters
+            const int maxPreviewLen = 90; // characters
             var textLen = text.Length;
 
             if (textLen > maxPreviewLen) return text.Substring(0, maxPreviewLen) + "...";

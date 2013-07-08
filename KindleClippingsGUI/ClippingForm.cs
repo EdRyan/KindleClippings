@@ -24,12 +24,13 @@ namespace KindleClippingsGUI
         {
             this.ClientSize = new Size(600, 500);
             this.Title = "View Clipping";
+            this.Icon = Common.GetClippingTypeIcon(_clipping.ClippingType);
 
             var layout = new DynamicLayout(this);
 
             layout.AddRow(new Label { Text = "Book Name:" }, GetDataControl(_clipping.BookName));
             layout.AddRow(new Label { Text = "Author:" }, GetDataControl(_clipping.Author));
-            layout.AddRow(new Label { Text = "Clipping Type:" }, GetDataControl(ClippingDatabase.GetClippingType(_clipping.ClippingType)));
+            layout.AddRow(new Label { Text = "Clipping Type:" }, GetDataControl(Common.GetClippingType(_clipping.ClippingType)));
             layout.AddRow(new Label { Text = "Page:" }, GetDataControl(_clipping.Page));
             layout.AddRow(new Label { Text = "Location:" }, GetDataControl(_clipping.Location));
             layout.AddRow(new Label { Text = "Date Added:" }, GetDataControl(_clipping.DateAdded.ToString(DateFormat)));

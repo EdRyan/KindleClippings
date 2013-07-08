@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ClippingDatabase.cs" />
     <Compile Include="ClippingForm.cs" />
+    <Compile Include="Common.cs" />
     <Compile Include="MainForm.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
@@ -84,6 +85,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="lib\WPFToolkit.Extended-License.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Resources\person.ico" />
+    <EmbeddedResource Include="Resources\book.ico" />
+    <EmbeddedResource Include="Resources\bookmark.ico" />
+    <EmbeddedResource Include="Resources\highlighter.ico" />
+    <EmbeddedResource Include="Resources\note.ico" />
+    <EmbeddedResource Include="Resources\text.ico" />
+    <Content Include="Resources\readme-Icons.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

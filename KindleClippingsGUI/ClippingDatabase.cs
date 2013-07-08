@@ -34,27 +34,5 @@ namespace KindleClippingsGUI
         {
             return _clippings[id];
         }
-
-        /// <summary>
-        /// Gets a human-readable description of a clipping type from the ClippingTypeEnum value
-        /// </summary>
-        /// <param name="type">ClippingTypeEnum value</param>
-        /// <returns>Human-readable description</returns>
-        public static string GetClippingType(ClippingTypeEnum type)
-        {
-            // TODO this method should probably go somewhere else
-
-            switch (type)
-            {
-                case ClippingTypeEnum.Highlight:
-                    return "Highlight";
-                case ClippingTypeEnum.Note:
-                    return "Note";
-                case ClippingTypeEnum.Bookmark:
-                    return "Bookmark";
-                default:
-                    return "Unknown Clipping Type";
-            }
-        }
     }
 }
