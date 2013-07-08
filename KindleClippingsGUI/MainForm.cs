@@ -211,7 +211,7 @@ namespace KindleClippingsGUI
         {
             var item = _treeView.SelectedItem;
 
-            if (string.IsNullOrEmpty(item.Key)) return;
+            if (item == null || string.IsNullOrEmpty(item.Key)) return;
 
             try
             {
