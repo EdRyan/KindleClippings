@@ -30,7 +30,7 @@ __GUI__
 TODO
 ----
 
-- GUI: Minor improvements to interface, including background colors (Clipping Form) and icons
+- GUI: Minor improvements to interface, including background colors (Clipping Form)
 - Export functionality?
 - Calibre integration?
 - Document the library
