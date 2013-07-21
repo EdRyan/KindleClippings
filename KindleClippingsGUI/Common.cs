@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,9 @@ namespace KindleClippingsGUI
         public static Icon NoteIcon = Icon.FromResource(ResourceNamespace + "note.ico");
         public static Icon BookmarkIcon = Icon.FromResource(ResourceNamespace + "bookmark.ico");
         public static Icon TextIcon = Icon.FromResource(ResourceNamespace + "text.ico");
+
+        public const string DefaultKindleVolumeLabel = "Kindle";
+        public const string MyClippingsRelativePath = @"documents\My Clippings.txt";
 
         /// <summary>
         /// Gets a human-readable description of a clipping type from the ClippingTypeEnum value
@@ -56,6 +60,15 @@ namespace KindleClippingsGUI
                 default:
                     return TextIcon;
             }
+        }
+
+        /// <summary>
+        /// Gets the removable drives currently connected to the system
+        /// </summary>
+        /// <returns>DriveInfo's for removable drives</returns>
+        public static IEnumerable<DriveInfo> GetRemovableDrives()
+        {
+            return DriveInfo.GetDrives().Where(di => di.DriveType == DriveType.Removable);
         }
     }
 }

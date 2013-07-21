@@ -14,8 +14,14 @@ namespace KindleClippingsGUI
     {
         private Control _inputSection { get; set; }
         private Control _outputSection { get; set; }
+        private TabControl _tabGroup { get; set; }
         private TextBox _fileSelectTextBox { get; set; }
+        private ComboBox _deviceSelectBox { get; set; }
+        private Label _pathLabel { get; set; }
         private TreeView _treeView { get; set; }
+
+        private const string FromFileTabName = "From File";
+        private const string FromDeviceTabName = "From Device";
 
         public MainForm()
         {
@@ -29,6 +35,8 @@ namespace KindleClippingsGUI
             var layout = new DynamicLayout(this);
             layout.AddRow(_inputSection);
             layout.AddRow(_outputSection);
+
+            PopulateDevices();
         }
 
         private void CreateInputSection()
@@ -38,16 +46,15 @@ namespace KindleClippingsGUI
             var layout = new DynamicLayout(inGrp);
             layout.BeginVertical();
 
-            var browseLabel = new Label { Text = "Select Clippings File: ", Size = new Size(150,20) };
+            _tabGroup = new TabControl();
 
-            _fileSelectTextBox = new TextBox { Size = new Size(500, 20) };
+            var fileTab = CreateFromFileTab();
+            var deviceTab = CreateFromDeviceTab();
 
-            var browseButton = new Button { Text = "Browse" };
-            browseButton.Click += browseButton_Click;
+            _tabGroup.TabPages.Add(fileTab);
+            _tabGroup.TabPages.Add(deviceTab);
 
-            layout.BeginHorizontal();
-            layout.AddRow(browseLabel, _fileSelectTextBox, browseButton);
-            layout.EndHorizontal();
+            layout.AddRow(_tabGroup);
 
             var parseButton = new Button { Text = "Parse" };
             parseButton.Click += parseButton_Click;
@@ -61,12 +68,61 @@ namespace KindleClippingsGUI
             _inputSection = inGrp;
         }
 
+        private TabPage CreateFromFileTab()
+        {
+            var fileTab = new TabPage { Text = FromFileTabName };
+            var fileLayout = new DynamicLayout(fileTab);
+
+            var browseLabel = new Label { Text = "Select Clippings File: ", Size = new Size(150, 20) };
+
+            _fileSelectTextBox = new TextBox { Size = new Size(480, 20) };
+
+            var browseButton = new Button { Text = "Browse" };
+            browseButton.Click += browseButton_Click;
+
+            fileLayout.BeginVertical();
+            fileLayout.BeginHorizontal();
+            fileLayout.AddRow(browseLabel, _fileSelectTextBox, browseButton);
+            fileLayout.EndHorizontal();
+            fileLayout.EndVertical();
+
+            return fileTab;
+        }
+
+        private TabPage CreateFromDeviceTab()
+        {
+            var deviceTab = new TabPage { Text = FromDeviceTabName };
+            var deviceLayout = new DynamicLayout(deviceTab);
+
+            var selectDeviceLabel = new Label { Text = "Select Device: ", Size = new Size(150, 20) };
+
+            _deviceSelectBox = new ComboBox { Size = new Size(480, 20) };
+
+            var refreshButton = new Button { Text = "Refresh" };
+            refreshButton.Click += refreshButton_Click;
+
+            deviceLayout.BeginVertical();
+            deviceLayout.BeginHorizontal();
+            deviceLayout.AddRow(selectDeviceLabel, _deviceSelectBox, refreshButton);
+            deviceLayout.EndHorizontal();
+            deviceLayout.EndVertical();
+
+            return deviceTab;
+        }
+
         private void CreateOutputSection()
         {
             var outGrp = new GroupBox { Text = "Output" };
 
             var layout = new DynamicLayout(outGrp);
             layout.BeginVertical();
+
+            var sourceLabel = new Label { Text = "Source: ", Size = new Size(50, 20) };
+            _pathLabel = new Label();
+
+            layout.BeginHorizontal();
+            layout.AddRow(sourceLabel, _pathLabel);
+            layout.EndHorizontal();
 
             _treeView = new TreeView();
             _treeView.MouseDoubleClick += _treeView_MouseDoubleClick;
@@ -93,6 +149,35 @@ namespace KindleClippingsGUI
                 _fileSelectTextBox.Text = dialog.FileName;
         }
 
+        private string GetCurrentlySelectedDrive()
+        {
+            return _deviceSelectBox.SelectedKey;
+        }
+
+        void refreshButton_Click(object sender, EventArgs e)
+        {
+            PopulateDevices();
+        }
+
+        private void PopulateDevices()
+        {
+            var selectedDrive = GetCurrentlySelectedDrive();
+            bool hasPriorSelection = !String.IsNullOrEmpty(selectedDrive);
+
+            _deviceSelectBox.Items.Clear();
+
+            foreach (var device in Common.GetRemovableDrives())
+            {
+                var driveLetter = device.RootDirectory.FullName;
+                var volumeLabel = device.VolumeLabel;
+
+                var listItem = new ListItem { Key = driveLetter, Text = volumeLabel + " (" + driveLetter + ")" };
+                _deviceSelectBox.Items.Add(listItem);
+
+                if ((hasPriorSelection && driveLetter == selectedDrive) || volumeLabel == Common.DefaultKindleVolumeLabel) _deviceSelectBox.SelectedKey = driveLetter;
+            }
+        }
+
         private void parseButton_Click(object sender, EventArgs e)
         {
             Parse();
@@ -100,7 +185,19 @@ namespace KindleClippingsGUI
 
         private void Parse()
         {
-            var path = _fileSelectTextBox.Text;
+            string path;
+
+            switch (_tabGroup.SelectedPage.Text)
+            {
+                case FromFileTabName:
+                    path = _fileSelectTextBox.Text;
+                    break;
+                case FromDeviceTabName:
+                    path = GetCurrentlySelectedDrive() + Common.MyClippingsRelativePath;
+                    break;
+                default:
+                    throw new Exception("Error: could not determine what tab you are on.");
+            }
 
             if (File.Exists(path))
             {
@@ -109,6 +206,8 @@ namespace KindleClippingsGUI
                     var clippings = MyClippingsParser.Parse(path).ToList();
 
                     var authorDict = ClippingOrganizer.GroupClippingsByAuthorAndBook(clippings);
+
+                    _pathLabel.Text = path;
 
                     PopulateTree(authorDict.Values);
 

@@ -19,9 +19,10 @@ __Library__
 
 __GUI__
 
-1. Copy "My Clippings.txt" from your Kindle (e.g. by connecting it to your PC as a USB drive) to your computer
+1. Connect your Kindle to your PC as a USB drive
+1. Copy "My Clippings.txt" from your Kindle (optional)
 2. Build/Run the GUI
-3. Browse to the location of the "My Clippings.txt" file
+3. Browse to the location of the "My Clippings.txt" file __OR__ select the connected, removable Kindle device
 4. Click "Parse"
 5. Expand the appropriate author and book in the tree
 6. Double click on a highlight/note entry in the tree to view details
@@ -31,12 +32,11 @@ TODO
 ----
 
 - GUI: Minor improvements to interface, including background colors (Clipping Form)
-- Export functionality?
+- Export functionality
 - Calibre integration?
 - Document the library
 - Some kind of installer and publishing mechanism
 - Automated test suite
 - Ensure that this works with all Kindle devices (so far tested only on output from Kindle Touch running various firmware versions)
-- Pull data directly from Kindle (i.e. eliminate manual txt file copying)
-	- Identify connected Kindle, find "My Clippings.txt" and proceed as usual
-	- Reading MBS files???
+- Pull data directly from Kindle by Reading MBS files???
+- Move pulling from Kindle functionality from GUI to library?
